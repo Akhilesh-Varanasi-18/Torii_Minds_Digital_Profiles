@@ -6,8 +6,11 @@ import type { Portfolio } from "@/types/portfolio";
  * links resolve); pass "" for the live in-app view (relative URLs).
  */
 export function lightweight(p: Portfolio, code: string, origin = ""): Portfolio {
+  // Point click-through links at the in-app viewer (not the raw /asset bytes)
+  // so certificates/résumés preview inline on mobile instead of downloading.
+  // The viewer page fetches the actual bytes from /asset itself.
   const asset = (type: string, section?: string, id?: string) =>
-    `${origin}/api/portfolio/${code}/asset?type=${type}` +
+    `${origin}/${code}/view?type=${type}` +
     (section ? `&section=${section}` : "") +
     (id ? `&id=${encodeURIComponent(id)}` : "");
 

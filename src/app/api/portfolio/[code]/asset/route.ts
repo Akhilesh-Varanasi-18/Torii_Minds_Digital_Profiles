@@ -18,15 +18,24 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
   const id = url.searchParams.get("id");
 
   const col = await portfolios();
-  const p = await col.findOne({ employeeCode: normalizeCode(code) });
-  if (!p) return new NextResponse("Not found", { status: 404 });
+  const query = { employeeCode: normalizeCode(code) };
 
+  // Project ONLY the one file we need. The full document is several MB (every
+  // certificate's base64 data), so reading it whole per asset was extremely
+  // slow (tens of seconds) — the viewer would sit on "Loading…" the whole time.
   let dataUrl: string | undefined;
   if (type === "resume") {
+    const p = await col.findOne(query, { projection: { _id: 0, "profile.resumeUrl": 1 } });
+    if (!p) return new NextResponse("Not found", { status: 404 });
     dataUrl = p.profile?.resumeUrl;
   } else if (type === "cert" && section && id && CRED_SECTIONS.has(section)) {
+    // $elemMatch returns just the one matching item from the section array.
+    const p = await col.findOne(query, { projection: { _id: 0, [section]: { $elemMatch: { id } } } });
+    if (!p) return new NextResponse("Not found", { status: 404 });
     const list = (p as unknown as Record<string, Array<{ id: string; certificateUrl?: string }>>)[section] ?? [];
-    dataUrl = list.find((x) => x.id === id)?.certificateUrl;
+    dataUrl = list[0]?.certificateUrl;
+  } else {
+    return new NextResponse("Bad request", { status: 400 });
   }
 
   if (!dataUrl) return new NextResponse("Not found", { status: 404 });
