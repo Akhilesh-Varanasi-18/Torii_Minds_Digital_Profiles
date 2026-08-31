@@ -22,6 +22,6 @@ export default async function ViewPage({
   if (sp.id) qs.set("id", sp.id);
   const assetUrl = `/api/portfolio/${encodeURIComponent(code)}/asset?${qs.toString()}`;
 
-  const title = sp.type === "resume" ? "Résumé" : "Certificate";
+  const title = sp.type === "resume" ? "Resume" : "Certificate";
   return <AssetViewer url={assetUrl} title={title} />;
 }

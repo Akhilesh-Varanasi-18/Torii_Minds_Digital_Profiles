@@ -5,7 +5,10 @@ name: Keep Render warm
 # keeps it awake with margin. Also runnable manually from the Actions tab.
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    # Every 5 min for a tighter margin. NOTE: GitHub scheduled workflows are
+    # best-effort and are often delayed or skipped — for reliable warmth use an
+    # external monitor (UptimeRobot / cron-job.org) pointed at /api/health.
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 jobs:
