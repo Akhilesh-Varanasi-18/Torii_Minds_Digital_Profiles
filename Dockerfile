@@ -4,9 +4,10 @@
 FROM mcr.microsoft.com/playwright:v1.62.1-jammy
 
 WORKDIR /app
-ENV NODE_ENV=production
 
-# Install dependencies from the lockfile first (better build caching).
+# Install ALL dependencies (including dev) from the lockfile. Do NOT set
+# NODE_ENV=production before this — npm would then skip devDependencies
+# (tailwindcss, postcss, typescript, …) and `next build` would fail.
 COPY package.json package-lock.json ./
 RUN npm ci
 
@@ -14,6 +15,8 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
+# Switch to production only for the running server (build is already done).
+ENV NODE_ENV=production
 # Render injects $PORT at runtime; default to 3000 for local `docker run`.
 ENV PORT=3000
 EXPOSE 3000
