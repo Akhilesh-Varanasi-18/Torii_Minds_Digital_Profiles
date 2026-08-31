@@ -36,6 +36,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
     const browser = await chromium.launch({ args: ["--no-sandbox", "--disable-setuid-sandbox"] });
     try {
       const page = await browser.newPage();
+      // Fixed desktop width so the PDF matches the HTML's laptop layout.
+      await page.setViewportSize({ width: 1180, height: 1200 });
       await page.goto(printUrl, { waitUntil: "networkidle", timeout: 45000 }).catch(async () => {
         await page.goto(printUrl, { waitUntil: "load", timeout: 20000 });
       });
@@ -43,15 +45,23 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
       await page.waitForTimeout(400);
 
       if (format === "pdf") {
-        // The /print page is designed for A4 (190mm shell = A4 minus margins),
-        // with `break-inside: avoid` on cards so they never split across a page
-        // break. Render with print media + the page's own @page size for a
-        // clean, complete, multi-page PDF. Links stay clickable (certificates,
-        // résumé, socials) — same navigation as the HTML.
-        // NOTE: a single continuous "endless page" PDF is intentionally NOT used
-        // — Chromium mis-renders very tall custom page sizes (content collapses).
-        await page.emulateMedia({ media: "print" });
-        const pdf = await page.pdf({ printBackground: true, preferCSSPageSize: true });
+        // Continuous-flow PDF: ONE tall page that matches the HTML exactly — no
+        // A4 page-break gaps orphaning section headers. The page size must be
+        // driven via CSS @page (passing width/height straight to page.pdf makes
+        // Chromium mis-render tall pages — content collapses). We append the
+        // @page rule at the END of <body> so it wins over the print page's own
+        // @page A4. A small height buffer + pageRanges:"1" drops the stray blank
+        // overflow page from sub-pixel rounding. Links stay clickable.
+        await page.emulateMedia({ media: "screen" });
+        const height = await page.evaluate(
+          () => Math.ceil(document.documentElement.scrollHeight) + 40
+        );
+        await page.evaluate((h) => {
+          const s = document.createElement("style");
+          s.textContent = `@page { size: 1180px ${h}px; margin: 0; }`;
+          document.body.appendChild(s);
+        }, height);
+        const pdf = await page.pdf({ printBackground: true, preferCSSPageSize: true, pageRanges: "1" });
         return new NextResponse(new Uint8Array(pdf), {
           headers: {
             "Content-Type": "application/pdf",
