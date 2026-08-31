@@ -1,32 +1,39 @@
 import { MongoClient, type Db, type Collection } from "mongodb";
 import type { Portfolio } from "@/types/portfolio";
 
-const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB || "torii_portfolio";
-
-if (!uri) {
-  throw new Error("MONGODB_URI is not set. Add it to .env.local");
-}
-
-// Reuse the client across hot-reloads in dev (Next.js re-imports modules).
-let clientPromise: Promise<MongoClient>;
 
 declare global {
   // eslint-disable-next-line no-var
   var _toriiMongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-if (process.env.NODE_ENV === "development") {
-  if (!global._toriiMongoClientPromise) {
-    global._toriiMongoClientPromise = new MongoClient(uri).connect();
+// Prod: cache the connection at module scope (module is loaded once).
+let clientPromise: Promise<MongoClient> | undefined;
+
+// Connect lazily so merely IMPORTING this module never requires MONGODB_URI.
+// The URI is only needed when a request actually hits the DB — not at build
+// time (the Docker image builds without .env.local; env is injected at runtime).
+function getClientPromise(): Promise<MongoClient> {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error("MONGODB_URI is not set. Add it to .env.local (or the host's environment variables).");
   }
-  clientPromise = global._toriiMongoClientPromise;
-} else {
-  clientPromise = new MongoClient(uri).connect();
+  // Reuse the client across hot-reloads in dev (Next.js re-imports modules).
+  if (process.env.NODE_ENV === "development") {
+    if (!global._toriiMongoClientPromise) {
+      global._toriiMongoClientPromise = new MongoClient(uri).connect();
+    }
+    return global._toriiMongoClientPromise;
+  }
+  if (!clientPromise) {
+    clientPromise = new MongoClient(uri).connect();
+  }
+  return clientPromise;
 }
 
 export async function getDb(): Promise<Db> {
-  const client = await clientPromise;
+  const client = await getClientPromise();
   return client.db(dbName);
 }
 
