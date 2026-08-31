@@ -36,10 +36,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
     const browser = await chromium.launch({ args: ["--no-sandbox", "--disable-setuid-sandbox"] });
     try {
       const page = await browser.newPage();
-      // Render at a fixed desktop width so the PDF matches the HTML's laptop
-      // layout (3-column grids, correct alignment). The exported HTML stays
-      // responsive regardless — this viewport only fixes the PDF's geometry.
-      await page.setViewportSize({ width: 1180, height: 1200 });
       await page.goto(printUrl, { waitUntil: "networkidle", timeout: 45000 }).catch(async () => {
         await page.goto(printUrl, { waitUntil: "load", timeout: 20000 });
       });
@@ -47,21 +43,15 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
       await page.waitForTimeout(400);
 
       if (format === "pdf") {
-        // Make the PDF look EXACTLY like the HTML: screen media (not print), a
-        // single continuous page sized to the full content (no A4 page breaks
-        // slicing through cards), and clickable links preserved — so tapping a
-        // certificate/résumé/social link opens it just like in the HTML.
-        await page.emulateMedia({ media: "screen" });
-        const height = await page.evaluate(() =>
-          Math.ceil(document.documentElement.scrollHeight)
-        );
-        const pdf = await page.pdf({
-          printBackground: true,
-          width: "1180px",
-          height: `${height}px`,
-          pageRanges: "1",
-          margin: { top: "0", right: "0", bottom: "0", left: "0" },
-        });
+        // The /print page is designed for A4 (190mm shell = A4 minus margins),
+        // with `break-inside: avoid` on cards so they never split across a page
+        // break. Render with print media + the page's own @page size for a
+        // clean, complete, multi-page PDF. Links stay clickable (certificates,
+        // résumé, socials) — same navigation as the HTML.
+        // NOTE: a single continuous "endless page" PDF is intentionally NOT used
+        // — Chromium mis-renders very tall custom page sizes (content collapses).
+        await page.emulateMedia({ media: "print" });
+        const pdf = await page.pdf({ printBackground: true, preferCSSPageSize: true });
         return new NextResponse(new Uint8Array(pdf), {
           headers: {
             "Content-Type": "application/pdf",

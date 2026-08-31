@@ -43,7 +43,7 @@ export function DownloadMenu({ code }: { code: string }) {
   }
 
   const items: { fmt: "pdf" | "html"; title: string; desc: string; icon: React.ReactNode }[] = [
-    { fmt: "pdf", title: "PDF", desc: "Same layout, links clickable", icon: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M9 15h6M9 18h4" /></> },
+    { fmt: "pdf", title: "PDF", desc: "Print-ready A4, links clickable", icon: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M9 15h6M9 18h4" /></> },
     { fmt: "html", title: "HTML", desc: "Shareable web page", icon: <><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></> },
   ];
 
