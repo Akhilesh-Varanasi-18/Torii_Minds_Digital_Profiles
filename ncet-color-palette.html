@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCET — Color Palette Reference</title>
+<style>
+  :root {
+    color-scheme: light;
+    --navy: #0e2455;
+    --navy-deep: #0a1a3f;
+    --orange: #f6872a;
+    --blue: #3270fc;
+    --ink: #0f1216;
+    --body: #53545b;
+    --line: #e6ebf4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(180deg, #ffffff 0%, #f6f8fc 40%, #eef1f6 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    padding: 0 0 80px;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header band — NCET navy hero with orange accent */
+  header.hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff;
+    padding: 46px 0 40px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  header.hero::after {
+    content: "";
+    position: absolute; left: 0; bottom: 0; height: 5px; width: 100%;
+    background: linear-gradient(90deg, var(--orange) 0%, #ffb978 45%, var(--blue) 100%);
+  }
+  header.hero .eyebrow {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: #ffb978; margin-bottom: 12px;
+  }
+  header.hero h1 { font-size: 32px; font-weight: 800; letter-spacing: -.3px; }
+  header.hero h1 span { color: var(--orange); }
+  header.hero .sub {
+    color: rgba(255,255,255,.8); margin-top: 10px; font-size: 14px; max-width: 720px;
+  }
+  header.hero .meta {
+    margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  header.hero .pill {
+    font-size: 12px; font-weight: 600;
+    background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16);
+    color: #eaf0ff; border-radius: 999px; padding: 6px 13px;
+    backdrop-filter: blur(4px);
+  }
+  header.hero .pill b { color: var(--orange); }
+
+  h2 {
+    font-size: 19px; font-weight: 700; color: var(--navy);
+    margin: 46px 0 6px; padding-bottom: 9px;
+    border-bottom: 2px solid var(--orange);
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  h2 .num {
+    font-size: 13px; font-weight: 800; color: #fff;
+    background: var(--navy); border-radius: 6px; padding: 3px 9px;
+  }
+  .sec-note { color: #6b7280; font-size: 13px; margin-bottom: 18px; max-width: 760px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 15px; }
+
+  .card {
+    background: #fff; border: 1px solid #e9edf4; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 14px rgba(14,36,85,.05);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(14,36,85,.12); }
+  .swatch { height: 78px; display: flex; align-items: flex-end; justify-content: flex-start; padding: 8px 10px; position: relative; }
+  .swatch.bordered { box-shadow: inset 0 0 0 1px rgba(14,36,85,.08); }
+  .hexchip {
+    font-family: Consolas, 'SF Mono', monospace; font-size: 12px; font-weight: 700;
+    background: rgba(255,255,255,.9); color: #181818; border-radius: 5px; padding: 3px 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.14);
+  }
+  .hexchip.ondark { background: rgba(0,0,0,.32); color: #fff; }
+  .info { padding: 12px 13px 14px; }
+  .name { font-weight: 700; font-size: 13.5px; color: var(--navy); margin-bottom: 3px; }
+  .varname {
+    font-family: Consolas, monospace; font-size: 11px; color: var(--orange);
+    margin-bottom: 7px; word-break: break-all;
+  }
+  .use { font-size: 12px; color: #565a63; line-height: 1.5; }
+  .use code {
+    font-family: Consolas, monospace; font-size: 11px;
+    background: #f1f5f9; border-radius: 4px; padding: 1px 5px; color: #334155;
+  }
+  .tag {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .5px;
+    text-transform: uppercase; color: #fff; background: var(--orange);
+    border-radius: 4px; padding: 2px 7px; margin-left: 6px; vertical-align: middle;
+  }
+  .tag.primary { background: var(--navy); }
+  .tag.blue { background: var(--blue); }
+
+  /* Gradient cards */
+  .grad-swatch { height: 96px; }
+
+  footer {
+    margin-top: 60px; color: #94a3b8; font-size: 12px; text-align: center;
+    border-top: 1px solid #e6ebf4; padding-top: 24px;
+  }
+  footer b { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Design System · Brand Reference</span>
+    <h1>NCET — <span>Color Palette</span></h1>
+    <div class="sub">The working color system of the NCET website, extracted from the live frontend CSS. A brand-led palette anchored on <strong style="color:#ffb978">Navy</strong>, <strong style="color:#ffb978">Orange</strong> and <strong style="color:#ffb978">Blue</strong>, backed by a neutral slate/gray scale and soft brand tints.</div>
+    <div class="meta">
+      <span class="pill">Primary Navy <b>#0E2455</b> · 649 uses</span>
+      <span class="pill">Accent Orange <b>#F6872A</b> · 461 uses</span>
+      <span class="pill">Accent Blue <b>#3270FC</b> · 149 uses</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h2><span class="num">1</span> Brand / Primary Colors</h2>
+  <div class="sec-note">The core identity. Navy is the foundation (backgrounds, headings, nav, footer); Orange is the signature accent used for highlights, CTAs and title emphasis; Blue is the tertiary accent for links and info.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#0e2455"><span class="hexchip ondark">#0E2455</span></div><div class="info"><div class="name">Primary Navy <span class="tag primary">Main Brand</span></div><div class="varname">--navy · --ink</div><div class="use">The backbone of the brand — hero backgrounds, section titles, navbar, footer, buttons, chips and text. By far the most-used color (649+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#0a1a3f"><span class="hexchip ondark">#0A1A3F</span></div><div class="info"><div class="name">Navy Deep</div><div class="varname">--navy-deep</div><div class="use">Darker navy for depth — image-frame backgrounds, deep hero gradient end, lightbox backdrop (43+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#f6872a"><span class="hexchip">#F6872A</span></div><div class="info"><div class="name">Accent Orange <span class="tag">Signature</span></div><div class="varname">--orange</div><div class="use">The highlight color — the orange <code>&lt;span&gt;</code> in section titles, CTA buttons, underlines, active tabs, badges, focus outlines, hover accents (461+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ff9a3d"><span class="hexchip">#FF9A3D</span></div><div class="info"><div class="name">Orange Light</div><div class="use">Gradient partner &amp; hover tone for the accent orange — <code>linear-gradient(135deg, #f6872a, #ff9a3d)</code>.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ffb978"><span class="hexchip">#FFB978</span></div><div class="info"><div class="name">Orange 300 / Glow</div><div class="use">Soft top-stop of vertical orange gradients and glows — <code>linear-gradient(180deg, #ffb978, #f6872a)</code> (55+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#f05819"><span class="hexchip">#F05819</span></div><div class="info"><div class="name">Rust / Deep Orange</div><div class="use">Warmer, punchier orange variant — regulation-doc accents, some CTAs and section headers (124+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#3270fc"><span class="hexchip ondark">#3270FC</span></div><div class="info"><div class="name">Accent Blue <span class="tag blue">Tertiary</span></div><div class="varname">--blue</div><div class="use">Links, info accents, secondary highlights, and the cool end of brand-duo gradients (149+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#3b82f6"><span class="hexchip ondark">#3B82F6</span></div><div class="info"><div class="name">Blue 500 (alt)</div><div class="use">Occasional lighter blue for links / interactive icons where the deep brand blue is too heavy.</div></div></div>
+  </div>
+
+  <h2><span class="num">2</span> Signature Gradients</h2>
+  <div class="sec-note">The recurring gradient recipes used across heroes, buttons, glows and accent bars.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch grad-swatch" style="background:linear-gradient(135deg,#0e2455,#0a1a3f)"><span class="hexchip ondark">Navy Hero</span></div><div class="info"><div class="name">Navy Hero</div><div class="use"><code>linear-gradient(135deg, #0e2455, #0a1a3f)</code> — page heroes, dark sections, footers.</div></div></div>
+    <div class="card"><div class="swatch grad-swatch" style="background:linear-gradient(135deg,#f6872a,#ff9a3d)"><span class="hexchip">Orange CTA</span></div><div class="info"><div class="name">Orange CTA</div><div class="use"><code>linear-gradient(135deg, #f6872a, #ff9a3d)</code> — primary buttons, badges, highlight pills.</div></div></div>
+    <div class="card"><div class="swatch grad-swatch" style="background:linear-gradient(180deg,#ffb978,#f6872a)"><span class="hexchip">Orange Glow</span></div><div class="info"><div class="name">Orange Glow</div><div class="use"><code>linear-gradient(180deg, #ffb978, #f6872a)</code> — accent bars, underlines, decorative shapes.</div></div></div>
+    <div class="card"><div class="swatch grad-swatch" style="background:linear-gradient(90deg,#f6872a,#3270fc)"><span class="hexchip ondark">Brand Duo</span></div><div class="info"><div class="name">Brand Duo</div><div class="use"><code>linear-gradient(180deg, #f6872a 0%, #3270fc 100%)</code> — signature orange→blue accents &amp; dividers.</div></div></div>
+    <div class="card"><div class="swatch grad-swatch" style="background:linear-gradient(90deg,#f6872a,rgba(246,135,42,0))"><span class="hexchip">Orange Fade</span></div><div class="info"><div class="name">Orange Fade</div><div class="use"><code>linear-gradient(90deg, #f6872a, rgba(246,135,42,0))</code> — underline sweeps, soft edge fades (10+ rules).</div></div></div>
+    <div class="card"><div class="swatch grad-swatch" style="background:linear-gradient(180deg,#ffffff 0%,#f6f8fc 55%,#eef1f6 100%)"><span class="hexchip">Section Wash</span></div><div class="info"><div class="name">Section Wash</div><div class="use"><code>linear-gradient(180deg, #fff, #f4f7fc, #eef3fa)</code> — light section backgrounds (e.g. Trainers section).</div></div></div>
+  </div>
+
+  <h2><span class="num">3</span> Text Colors</h2>
+  <div class="sec-note">Headings sit on navy/near-black; body copy uses warm-neutral grays.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#0f1216"><span class="hexchip ondark">#0F1216</span></div><div class="info"><div class="name">Ink / Heading Black</div><div class="varname">--ink</div><div class="use">High-contrast headings on light backgrounds (71+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#0e2455"><span class="hexchip ondark">#0E2455</span></div><div class="info"><div class="name">Navy Heading</div><div class="use">Section titles &amp; emphasis headings in the brand voice.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#53545b"><span class="hexchip ondark">#53545B</span></div><div class="info"><div class="name">Body Text</div><div class="varname">--body</div><div class="use">Default paragraph copy — the primary reading color (77+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#5b5f64"><span class="hexchip ondark">#5B5F64</span></div><div class="info"><div class="name">Body Gray</div><div class="use">Secondary body copy / lead paragraphs (44+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#6b7280"><span class="hexchip ondark">#6B7280</span></div><div class="info"><div class="name">Gray 500</div><div class="use">Meta text, captions, secondary labels (34+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#7a8194"><span class="hexchip ondark">#7A8194</span></div><div class="info"><div class="name">Muted Slate</div><div class="varname">--muted</div><div class="use">Muted labels, eyebrows, de-emphasized text.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#777777"><span class="hexchip ondark">#777777</span></div><div class="info"><div class="name">Muted Gray</div><div class="use">Neutral muted text / helper copy (27+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#999999"><span class="hexchip ondark">#999999</span></div><div class="info"><div class="name">Muted Light</div><div class="use">Placeholder text, disabled labels, faint captions (18+ rules).</div></div></div>
+  </div>
+
+  <h2><span class="num">4</span> Surfaces &amp; Light Backgrounds</h2>
+  <div class="sec-note">The page-, section- and card-level background tones — cool off-whites with a couple of warm orange tints.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#ffffff"><span class="hexchip">#FFFFFF</span></div><div class="info"><div class="name">White</div><div class="use">Cards, panels, body background in light areas — second most-used color overall (315+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#f8fafc"><span class="hexchip">#F8FAFC</span></div><div class="info"><div class="name">Surface</div><div class="varname">--surface</div><div class="use">Default soft surface behind cards and content blocks (118+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#eef1f6"><span class="hexchip">#EEF1F6</span></div><div class="info"><div class="name">Section BG</div><div class="use">Large alternating section backgrounds, page base wash (104+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#f1f5f9"><span class="hexchip">#F1F5F9</span></div><div class="info"><div class="name">Panel BG</div><div class="use">Filter panels, image-frame fills, inset boxes (94+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#f2f4f9"><span class="hexchip">#F2F4F9</span></div><div class="info"><div class="name">Panel Cool</div><div class="use">Alternate cool panel tone (25+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#edf1f7"><span class="hexchip">#EDF1F7</span></div><div class="info"><div class="name">Panel Soft</div><div class="use">Soft-blue card &amp; sidebar backgrounds (18+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#fff5ec"><span class="hexchip">#FFF5EC</span></div><div class="info"><div class="name">Orange Tint BG</div><div class="use">Warm tinted background behind orange-accented cards / callouts (18+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#fff7ed"><span class="hexchip">#FFF7ED</span></div><div class="info"><div class="name">Warm Tint BG</div><div class="use">Soft amber-white section wash for highlight blocks (12+ rules).</div></div></div>
+  </div>
+
+  <h2><span class="num">5</span> Neutral / Slate Scale</h2>
+  <div class="sec-note">The gray-blue neutral ramp (Tailwind-style slate/gray) used for secondary text, icons, dividers and UI chrome.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#334155"><span class="hexchip ondark">#334155</span></div><div class="info"><div class="name">Slate 700</div><div class="use">Strong secondary text, code chips, dark UI labels (15+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#475569"><span class="hexchip ondark">#475569</span></div><div class="info"><div class="name">Slate 600</div><div class="use">Secondary headings / emphasized body (23+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#4b5563"><span class="hexchip ondark">#4B5563</span></div><div class="info"><div class="name">Gray 600</div><div class="use">Body-emphasis gray, icon color (22+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#64748b"><span class="hexchip ondark">#64748B</span></div><div class="info"><div class="name">Slate 500</div><div class="use">Meta text, muted labels, inactive tabs (31+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#94a3b8"><span class="hexchip ondark">#94A3B8</span></div><div class="info"><div class="name">Slate 400</div><div class="use">Placeholders, faint captions, disabled icons (20+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#9ca3af"><span class="hexchip ondark">#9CA3AF</span></div><div class="info"><div class="name">Gray 400</div><div class="use">Subtle text / arrow &amp; chevron icons (15+ rules).</div></div></div>
+  </div>
+
+  <h2><span class="num">6</span> Borders &amp; Dividers</h2>
+  <div class="sec-note">Hairline borders for cards, inputs, tables and section separators.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#e6ebf4"><span class="hexchip">#E6EBF4</span></div><div class="info"><div class="name">Brand Border</div><div class="varname">--border · --line</div><div class="use">The default brand hairline — card outlines, dividers, input borders.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#e2e8f0"><span class="hexchip">#E2E8F0</span></div><div class="info"><div class="name">Slate Border 200</div><div class="use">Standard card &amp; table borders (45+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#e5e7eb"><span class="hexchip">#E5E7EB</span></div><div class="info"><div class="name">Gray Border 200</div><div class="use">List separators, outline buttons, chip borders (29+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#e3e8f0"><span class="hexchip">#E3E8F0</span></div><div class="info"><div class="name">Cool Border</div><div class="use">Soft blue-gray dividers on light panels (27+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#d1d5db"><span class="hexchip">#D1D5DB</span></div><div class="info"><div class="name">Gray Border 300</div><div class="use">Stronger borders, input outlines, table rules (19+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#cbd5e1"><span class="hexchip">#CBD5E1</span></div><div class="info"><div class="name">Slate Border 300</div><div class="use">Emphasized dividers, hover borders, sliders (16+ rules).</div></div></div>
+  </div>
+
+  <h2><span class="num">7</span> Soft Accent Tints</h2>
+  <div class="sec-note">Pale washes of each brand color — used as background fills behind icons, badges and highlighted document blocks.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#eaeefb"><span class="hexchip">#EAEEFB</span></div><div class="info"><div class="name">Navy Soft</div><div class="varname">.arx-doc--navy --soft</div><div class="use">Tinted fill behind navy-accented cards / document callouts.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#fff1e2"><span class="hexchip">#FFF1E2</span></div><div class="info"><div class="name">Orange Soft</div><div class="varname">.arx-doc--orange --soft</div><div class="use">Warm tint behind orange-accented callouts &amp; highlight rows.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#e9f0ff"><span class="hexchip">#E9F0FF</span></div><div class="info"><div class="name">Blue Soft</div><div class="varname">.arx-doc--blue --soft</div><div class="use">Cool tint behind blue-accented info blocks &amp; links.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#ffe9e0"><span class="hexchip">#FFE9E0</span></div><div class="info"><div class="name">Rust Soft</div><div class="varname">.arx-doc--rust --soft</div><div class="use">Warm tint behind rust/deep-orange accented sections.</div></div></div>
+  </div>
+
+  <h2><span class="num">8</span> Occasional / Semantic Accents</h2>
+  <div class="sec-note">NCET has no formal success/error system — these one-off colors appear where positive, alert or rating states are shown. Introduce a proper token set here if you add validation or toasts.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#34d399"><span class="hexchip ondark">#34D399</span></div><div class="info"><div class="name">Success Green</div><div class="use">Positive / "verified" accents where used (sparse — not systemized).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#4ade80"><span class="hexchip">#4ADE80</span></div><div class="info"><div class="name">Green 400</div><div class="use">Lighter positive accent / checkmarks.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#15803d"><span class="hexchip ondark">#15803D</span></div><div class="info"><div class="name">Green 700</div><div class="use">Deep success text on light tint backgrounds.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ffa000"><span class="hexchip ondark">#FFA000</span></div><div class="info"><div class="name">Amber / Star</div><div class="use">Star ratings, award / gold accents on highlight cards (11+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ea580c"><span class="hexchip ondark">#EA580C</span></div><div class="info"><div class="name">Orange 600</div><div class="use">Darker orange for hover/pressed states &amp; strong warnings (16+ rules).</div></div></div>
+  </div>
+
+  <h2><span class="num">9</span> Shadows &amp; Overlays</h2>
+  <div class="sec-note">The elevation and overlay recipes — navy-tinted shadows for brand depth, orange glow under CTAs, and dark backdrops for modals.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:rgba(14,36,85,.14)"><span class="hexchip">rgba(14,36,85,.14)</span></div><div class="info"><div class="name">Navy Shadow</div><div class="use">Card &amp; image-frame elevation — <code>0 18px 40px rgba(10,26,63,.14)</code>.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:rgba(14,36,85,.28)"><span class="hexchip ondark">rgba(10,26,63,.28)</span></div><div class="info"><div class="name">Navy Shadow Deep</div><div class="use">Hover / raised state depth on brand cards &amp; chips.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:rgba(15,18,22,.06)"><span class="hexchip">rgba(15,18,22,.06)</span></div><div class="info"><div class="name">Neutral Shadow</div><div class="use">Subtle default card shadow — <code>0 6px 18px rgba(15,18,22,.06)</code>.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:rgba(246,135,42,.28)"><span class="hexchip">rgba(246,135,42,.28)</span></div><div class="info"><div class="name">Orange Glow</div><div class="use">Warm glow beneath orange CTAs &amp; "View" pills.</div></div></div>
+    <div class="card"><div class="swatch" style="background:rgba(10,26,63,.72)"><span class="hexchip ondark">rgba(10,26,63,.72)</span></div><div class="info"><div class="name">Modal Backdrop</div><div class="use">Navy-tinted lightbox / modal overlay with blur (e.g. Trainers lightbox).</div></div></div>
+    <div class="card"><div class="swatch" style="background:rgba(0,0,0,.5)"><span class="hexchip ondark">rgba(0,0,0,.5)</span></div><div class="info"><div class="name">Overlay 50%</div><div class="use">Image-hover scrims, caption bars, generic backdrops.</div></div></div>
+  </div>
+
+  <footer>
+    <b>NCET</b> — Nagarjuna College of Engineering &amp; Technology · Color palette extracted from the live frontend CSS (<code>frontend/src</code>) · Brand: Navy <b>#0E2455</b> / Orange <b>#F6872A</b> / Blue <b>#3270FC</b>
+  </footer>
+
+</div>
+</body>
+</html>

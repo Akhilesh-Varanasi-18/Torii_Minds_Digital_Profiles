@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OwlCoder (Technical Hub) — Color Palette Reference</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f7f9fa; color: #181818; padding: 40px 24px 80px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  h1 { font-size: 28px; margin-bottom: 6px; }
+  .sub { color: #666; margin-bottom: 36px; font-size: 14px; }
+  h2 { font-size: 19px; margin: 40px 0 6px; padding-bottom: 8px; border-bottom: 2px solid #008738; }
+  .sec-note { color: #777; font-size: 13px; margin-bottom: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+  .swatch { height: 64px; display: flex; align-items: flex-end; padding: 6px 10px; }
+  .swatch.bordered { border-bottom: 1px solid #eee; }
+  .hexchip { font-family: Consolas, monospace; font-size: 12px; background: rgba(255,255,255,.85); color: #181818; border-radius: 4px; padding: 2px 7px; font-weight: 600; }
+  .info { padding: 10px 12px 12px; }
+  .name { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
+  .varname { font-family: Consolas, monospace; font-size: 11px; color: #008738; margin-bottom: 6px; word-break: break-all; }
+  .use { font-size: 12px; color: #555; line-height: 1.45; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: #fff; background: #008738; border-radius: 3px; padding: 2px 6px; margin-left: 6px; vertical-align: middle; }
+  .tag.warn { background: #f8941f; }
+  footer { margin-top: 56px; color: #999; font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>OwlCoder — Project Color Palette</h1>
+  <div class="sub">Extracted from the live CSS of <strong>owlcoder.technicalhub.io</strong> (coding-contest-list &amp; global stylesheets) · 55 color design-tokens in <code>:root</code> · 306 distinct color literals scanned across 12,782 CSS rules</div>
+
+  <h2>1 · Brand / Primary Colors</h2>
+  <div class="sec-note">The core identity colors. Green is the main brand color used on nearly every interactive element.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#008738"><span class="hexchip">#008738</span></div><div class="info"><div class="name">Primary Green <span class="tag">Main Brand</span></div><div class="varname">--color-primary</div><div class="use">Buttons (Login/Logout), links, footer headings &amp; links, problem-heading accents, labels, radio checked state, logo accent. The single most-used brand color (72+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#72bd20"><span class="hexchip">#72bd20</span></div><div class="info"><div class="name">Gradient Light Green</div><div class="varname">--gradient-primary (start)</div><div class="use">Start color of the primary gradient: <code>linear-gradient(-90deg, #72bd20, #008738)</code> — used on gradient buttons and highlighted banners.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#1ab69d"><span class="hexchip">#1AB69D</span></div><div class="info"><div class="name">Teal Accent</div><div class="use">Template accent teal: text-gradient headings, preloader, button hover ::after layers, decorative wave &amp; dot shapes on banners (33+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#31b978"><span class="hexchip">#31B978</span></div><div class="info"><div class="name">Gradient Green (mid)</div><div class="use">Second stop in teal→green gradients: preloader, <code>.btn-gradient</code>, button hover effects.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ee4a62"><span class="hexchip">#EE4A62</span></div><div class="info"><div class="name">Secondary Red / Pink</div><div class="varname">--color-secondary</div><div class="use">Secondary accent: category-card hover states, hero highlights, countdown boxes (as 10% tint), decorative dotted shapes, "Dark" toggle sun icon.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ff5b5c"><span class="hexchip">#FF5B5C</span></div><div class="info"><div class="name">Text Secondary Red</div><div class="varname">--color-textSecondary</div><div class="use">Secondary text emphasis / alert-ish inline text.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#f8b81f"><span class="hexchip">#F8B81F</span></div><div class="info"><div class="name">Tertiary Yellow</div><div class="varname">--color-tertiary</div><div class="use">Star ratings, course-meta rating icons, decorative shapes, breadcrumb accents (25+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ffbb00"><span class="hexchip">#FFBB00</span></div><div class="info"><div class="name">Contest Yellow</div><div class="use">"Running" contest badge (<code>.contest-badge-running</code>) and problem-input focus border.</div></div></div>
+  </div>
+
+  <h2>2 · Status / Feedback Colors</h2>
+  <div class="sec-note">Use these for success, error, warning and info states (toasts, badges, validation).</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#3eb75e"><span class="hexchip">#3EB75E</span></div><div class="info"><div class="name">Success</div><div class="varname">--color-success</div><div class="use">Success toasts, passed test cases, positive badges.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ff0003"><span class="hexchip">#FF0003</span></div><div class="info"><div class="name">Danger</div><div class="varname">--color-danger</div><div class="use">Errors, failed test cases, destructive actions.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#ff8f3c"><span class="hexchip">#FF8F3C</span></div><div class="info"><div class="name">Warning</div><div class="varname">--color-warning</div><div class="use">Warning states and attention badges.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#1ba2db"><span class="hexchip">#1BA2DB</span></div><div class="info"><div class="name">Info</div><div class="varname">--color-info</div><div class="use">Informational badges and notices.</div></div></div>
+  </div>
+
+  <h2>3 · Text Colors</h2>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#181818"><span class="hexchip">#181818</span></div><div class="info"><div class="name">Heading Dark</div><div class="varname">--color-heading · --footer-text</div><div class="use">All headings (h1–h6), nav-menu links ("Owl Dashboard", "Coding Contest"), page title "My Account".</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#808080"><span class="hexchip">#808080</span></div><div class="info"><div class="name">Body Text Gray</div><div class="use">Default body copy — paragraphs, "No current contests available" text, meta text.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#bababa"><span class="hexchip">#BABABA</span></div><div class="info"><div class="name">Muted / Footer Text</div><div class="varname">--color-title</div><div class="use">Footer copy on dark background ("Copyright 2026… All Rights Reserved"), muted labels, dark-theme secondary text (20+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#ffffff"><span class="hexchip">#FFFFFF</span></div><div class="info"><div class="name">White</div><div class="varname">--color-white · --edu-btn-color · --color-bg-body</div><div class="use">Text on green buttons, text on dark footer, card &amp; body background in light mode. Most used color overall (148+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#000000"><span class="hexchip">#000000</span></div><div class="info"><div class="name">Black</div><div class="varname">--color-black</div><div class="use">Overlays, backdrops, high-contrast icons, shadow bases.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#525151"><span class="hexchip">#525151</span></div><div class="info"><div class="name">Gray 60</div><div class="varname">--color-extra09</div><div class="use">Secondary dark-gray text / icons.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#404040"><span class="hexchip">#404040</span></div><div class="info"><div class="name">Gray 70</div><div class="varname">--color-extra10</div><div class="use">Dark-gray UI text / borders on light surfaces.</div></div></div>
+  </div>
+
+  <h2>4 · Light Backgrounds &amp; Surfaces</h2>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#eaf0f2"><span class="hexchip">#EAF0F2</span></div><div class="info"><div class="name">Page Section BG</div><div class="varname">--bg-color</div><div class="use">Hero / breadcrumb band behind "My Account" title, large section backgrounds.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#f5f9fa"><span class="hexchip">#F5F9FA</span></div><div class="info"><div class="name">Panel BG</div><div class="use">"Contests" filter sidebar box, breadcrumb areas, dark/light toggle label (13+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#f0f4f5"><span class="hexchip">#F0F4F5</span></div><div class="info"><div class="name">CTA / Lighten 01</div><div class="varname">--cta-color-bg · --color-lighten01</div><div class="use">CTA banner areas, soft card backgrounds.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#edf5f8"><span class="hexchip">#EDF5F8</span></div><div class="info"><div class="name">Lighten 02</div><div class="varname">--color-lighten02</div><div class="use">Alternate soft-blue section background.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#f5f1eb"><span class="hexchip">#F5F1EB</span></div><div class="info"><div class="name">Lighten 03</div><div class="varname">--color-lighten03</div><div class="use">Warm beige section background.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#f7f5f2"><span class="hexchip">#F7F5F2</span></div><div class="info"><div class="name">Lighten 04</div><div class="varname">--color-lighten04</div><div class="use">Warm off-white section background.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#eee7f9"><span class="hexchip">#EEE7F9</span></div><div class="info"><div class="name">Soft Purple BG</div><div class="use">Tinted category/feature card backgrounds.</div></div></div>
+  </div>
+
+  <h2>5 · Dark Theme Colors</h2>
+  <div class="sec-note">Applied when <code>[data-theme="dark"]</code> is set (the "Dark" toggle on the right edge).</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#020b17"><span class="hexchip">#020B17</span></div><div class="info"><div class="name">Dark Page BG</div><div class="varname">--dark-bg-color</div><div class="use">Deep navy page/section background in dark mode.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#111822"><span class="hexchip">#111822</span></div><div class="info"><div class="name">Dark Body BG</div><div class="varname">--dark-color-bg-body</div><div class="use">Body background in dark mode.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#1c242f"><span class="hexchip">#1C242F</span></div><div class="info"><div class="name">Dark Surface</div><div class="varname">--bg-color-2</div><div class="use">Cards, dashboard sections, tables and badges in dark mode (39+ rules).</div></div></div>
+    <div class="card"><div class="swatch" style="background:#282f3a"><span class="hexchip">#282F3A</span></div><div class="info"><div class="name">Dark Border</div><div class="varname">--dark-color-border</div><div class="use">Borders and dividers in dark mode.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#22272e"><span class="hexchip">#22272E</span></div><div class="info"><div class="name">Dark Extra</div><div class="varname">--color-extra11</div><div class="use">Alternate dark surface tone.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#111212"><span class="hexchip">#111212</span></div><div class="info"><div class="name">Footer Black</div><div class="varname">--color-dark</div><div class="use">Site footer background (light &amp; dark mode), dark hero sections.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#ffffff"><span class="hexchip">#FFFFFF</span></div><div class="info"><div class="name">Dark-mode Heading</div><div class="varname">--dark-color-heading</div><div class="use">Headings switch to white in dark mode.</div></div></div>
+  </div>
+
+  <h2>6 · Borders &amp; Dividers</h2>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:#e5e5e5"><span class="hexchip">#E5E5E5</span></div><div class="info"><div class="name">Default Border</div><div class="varname">--color-border</div><div class="use">Standard border for cards, tabs, list separators, outline buttons (34+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#e6e6e6"><span class="hexchip">#E6E6E6</span></div><div class="info"><div class="name">Card Border</div><div class="use">Problem-card borders, cart/table cell borders (22+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#dddddd"><span class="hexchip">#DDDDDD</span></div><div class="info"><div class="name">Table Border</div><div class="use">Custom cards and table row borders (12+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#e8e6e3"><span class="hexchip">#E8E6E3</span></div><div class="info"><div class="name">Warm Border</div><div class="use">Decorative borders in about/testimonial sections.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:#008637"><span class="hexchip">#008637</span></div><div class="info"><div class="name">Green Border</div><div class="use">Dark-mode card outlines, codemind board &amp; master-heading borders (one digit off primary — likely intended as #008738).</div></div></div>
+  </div>
+
+  <h2>7 · Accent / Extra Palette</h2>
+  <div class="sec-note">Category cards, charts, decorative shapes — defined as <code>--color-extra01…08</code>.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#0ecd73"><span class="hexchip">#0ECD73</span></div><div class="info"><div class="name">Extra 01 · Emerald</div><div class="use">Accent green for category tiles / highlights.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#8e56ff"><span class="hexchip">#8E56FF</span></div><div class="info"><div class="name">Extra 02 · Purple</div><div class="use">Category card accent.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#f92596"><span class="hexchip">#F92596</span></div><div class="info"><div class="name">Extra 03 · Pink</div><div class="use">Category card accent.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#5866eb"><span class="hexchip">#5866EB</span></div><div class="info"><div class="name">Extra 04 · Indigo</div><div class="use">Category card accent.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#f8941f"><span class="hexchip">#F8941F</span></div><div class="info"><div class="name">Extra 05 · Orange</div><div class="use">Category card accent.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#39c0fa"><span class="hexchip">#39C0FA</span></div><div class="info"><div class="name">Extra 06 · Sky Blue</div><div class="use">Category card accent.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#da04f8"><span class="hexchip">#DA04F8</span></div><div class="info"><div class="name">Extra 07 · Magenta</div><div class="use">Category card accent.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#4664e4"><span class="hexchip">#4664E4</span></div><div class="info"><div class="name">Extra 08 · Royal Blue</div><div class="use">Category card accent.</div></div></div>
+  </div>
+
+  <h2>8 · Social Media Colors</h2>
+  <div class="sec-note">Footer "Our Social Media" icons — defined as tokens in <code>:root</code>.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#1877f2"><span class="hexchip">#1877F2</span></div><div class="info"><div class="name">Facebook</div><div class="varname">--color-facebook</div></div></div>
+    <div class="card"><div class="swatch" style="background:#1da1f2"><span class="hexchip">#1DA1F2</span></div><div class="info"><div class="name">Twitter</div><div class="varname">--color-twitter</div></div></div>
+    <div class="card"><div class="swatch" style="background:#cd201f"><span class="hexchip">#CD201F</span></div><div class="info"><div class="name">YouTube</div><div class="varname">--color-youtube</div></div></div>
+    <div class="card"><div class="swatch" style="background:#0a66c2"><span class="hexchip">#0A66C2</span></div><div class="info"><div class="name">LinkedIn</div><div class="varname">--color-linkedin</div></div></div>
+    <div class="card"><div class="swatch" style="background:#c231a1"><span class="hexchip">#C231A1</span></div><div class="info"><div class="name">Instagram</div><div class="varname">--color-instagram</div></div></div>
+    <div class="card"><div class="swatch" style="background:#e60022"><span class="hexchip">#E60022</span></div><div class="info"><div class="name">Pinterest</div><div class="varname">--color-pinterest</div></div></div>
+    <div class="card"><div class="swatch" style="background:#00adef"><span class="hexchip">#00ADEF</span></div><div class="info"><div class="name">Vimeo</div><div class="varname">--color-vimeo</div></div></div>
+    <div class="card"><div class="swatch" style="background:#6441a3"><span class="hexchip">#6441A3</span></div><div class="info"><div class="name">Twitch</div><div class="varname">--color-twitch</div></div></div>
+    <div class="card"><div class="swatch" style="background:#7289da"><span class="hexchip">#7289DA</span></div><div class="info"><div class="name">Discord</div><div class="varname">--color-discord</div></div></div>
+  </div>
+
+  <h2>9 · Shadows &amp; Overlays</h2>
+  <div class="grid">
+    <div class="card"><div class="swatch bordered" style="background:rgba(26,46,85,.15)"><span class="hexchip">rgba(26,46,85,.1)</span></div><div class="info"><div class="name">Shadow Darker</div><div class="varname">--shadow-darker / --shadow-darker2</div><div class="use">Card shadows: <code>0 10px 50px</code> / <code>0 20px 50px</code>.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:rgba(20,36,66,.2)"><span class="hexchip">rgba(20,36,66,.15)</span></div><div class="info"><div class="name">Shadow Dark</div><div class="varname">--shadow-dark</div><div class="use"><code>0 10px 30px</code> hover shadow.</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:rgba(0,0,0,.1)"><span class="hexchip">rgba(0,0,0,.05 / .1)</span></div><div class="info"><div class="name">Neutral Shadows</div><div class="varname">--shadow-darkest / --shadow-darker3</div><div class="use">Contest cards, problem cards, toasts (40+ rules).</div></div></div>
+    <div class="card"><div class="swatch bordered" style="background:rgba(15,107,92,.25)"><span class="hexchip">rgba(15,107,92,.2)</span></div><div class="info"><div class="name">Green Shadow</div><div class="varname">--shadow-darker4</div><div class="use"><code>0 20px 70px</code> glow under green CTAs.</div></div></div>
+    <div class="card"><div class="swatch" style="background:rgba(238,74,98,.15)"><span class="hexchip">rgba(238,74,98,.1)</span></div><div class="info"><div class="name">Secondary Tint</div><div class="use">Countdown number chips, image-gallery hover tint.</div></div></div>
+    <div class="card"><div class="swatch" style="background:rgba(0,0,0,.5)"><span class="hexchip">rgba(0,0,0,.5)</span></div><div class="info"><div class="name">Overlay 50%</div><div class="use">Lightbox caption/toolbar, modal backdrops.</div></div></div>
+  </div>
+
+  <h2>10 · Framework Defaults (Bootstrap)</h2>
+  <div class="sec-note">Inherited from Bootstrap — not brand colors, but they appear on form controls.</div>
+  <div class="grid">
+    <div class="card"><div class="swatch" style="background:#0d6efd"><span class="hexchip">#0D6EFD</span></div><div class="info"><div class="name">Bootstrap Blue</div><div class="use">Checked checkbox/radio fill (<code>.form-check-input:checked</code>) where not overridden.</div></div></div>
+    <div class="card"><div class="swatch" style="background:#86b7fe"><span class="hexchip">#86B7FE</span></div><div class="info"><div class="name">Focus Ring Blue</div><div class="use">Input/select focus borders (<code>.form-control:focus</code>).</div></div></div>
+  </div>
+
+  <footer>Generated 10 Jul 2026 · scraped live from owlcoder.technicalhub.io/coding-contest-list</footer>
+</div>
+</body>
+</html>

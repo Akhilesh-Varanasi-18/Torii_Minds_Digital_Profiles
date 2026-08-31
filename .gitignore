@@ -1,0 +1,14 @@
+# dependencies (root and any nested project)
+node_modules/
+/.next
+/out
+/build
+# nested template build output (not used by the app)
+/project_resume_template/dist/
+.env*.local
+.DS_Store
+*.pem
+npm-debug.log*
+next-env.d.ts
+backups/
+tsconfig.tsbuildinfo

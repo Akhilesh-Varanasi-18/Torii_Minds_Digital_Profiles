@@ -1,0 +1,521 @@
+<style>
+  :root {
+    --bg:      #E9ECEF;
+    --paper:   #FFFFFF;
+    --ink:     #14181D;
+    --muted:   #5B6472;
+    --faint:   #8A93A0;
+    --line:    #D3D9E0;
+    --line-2:  #E4E8ED;
+    --accent:  #DC4327;   /* torii vermilion */
+    --accent-soft: #FBE7E1;
+    --slate:   #2C4257;   /* quiet structural blue */
+    --ok:      #2E7D5B;
+    --ok-bg:   #E1F0E9;
+    --warn:    #B5701A;
+    --warn-bg: #F6ECDA;
+    --risk:    #B23A2E;
+    --risk-bg: #F7E3E0;
+    --grid:    rgba(44,66,87,0.06);
+
+    --serif: "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono: ui-monospace,"SF Mono","Cascadia Mono","Segoe UI Mono","Roboto Mono",Menlo,Consolas,monospace;
+
+    --maxw: 940px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:      #0F1216;
+      --paper:   #171B21;
+      --ink:     #E7EAEE;
+      --muted:   #9AA4B2;
+      --faint:   #6C7684;
+      --line:    #272E37;
+      --line-2:  #1F252C;
+      --accent:  #F26140;
+      --accent-soft: #2A1712;
+      --slate:   #8FB2D0;
+      --ok:      #5BC08E;
+      --ok-bg:   #14261E;
+      --warn:    #D79B4A;
+      --warn-bg: #2A2013;
+      --risk:    #E8776A;
+      --risk-bg: #2A1512;
+      --grid:    rgba(143,178,208,0.07);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:#E9ECEF; --paper:#FFFFFF; --ink:#14181D; --muted:#5B6472; --faint:#8A93A0;
+    --line:#D3D9E0; --line-2:#E4E8ED; --accent:#DC4327; --accent-soft:#FBE7E1; --slate:#2C4257;
+    --ok:#2E7D5B; --ok-bg:#E1F0E9; --warn:#B5701A; --warn-bg:#F6ECDA; --risk:#B23A2E; --risk-bg:#F7E3E0;
+    --grid:rgba(44,66,87,0.06);
+  }
+  :root[data-theme="dark"] {
+    --bg:#0F1216; --paper:#171B21; --ink:#E7EAEE; --muted:#9AA4B2; --faint:#6C7684;
+    --line:#272E37; --line-2:#1F252C; --accent:#F26140; --accent-soft:#2A1712; --slate:#8FB2D0;
+    --ok:#5BC08E; --ok-bg:#14261E; --warn:#D79B4A; --warn-bg:#2A2013; --risk:#E8776A; --risk-bg:#2A1512;
+    --grid:rgba(143,178,208,0.07);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin:0; }
+  .page {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    padding: 0 20px 120px;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    max-width: var(--maxw);
+    margin: 0 auto 56px;
+    padding: 72px 0 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero::before {
+    content:"";
+    position:absolute; inset:-40px -40px 0;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+    z-index:0; pointer-events:none;
+  }
+  .hero > * { position: relative; z-index:1; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 20px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .eyebrow .torii { flex:none; }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(34px, 6vw, 54px);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    margin: 0 0 22px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: clamp(17px, 2.3vw, 20px);
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0 0 30px;
+  }
+  .lede b { color: var(--ink); font-weight: 600; }
+  .meta-row { display:flex; gap:10px 22px; flex-wrap:wrap; font-family:var(--mono); font-size:12.5px; color:var(--faint); }
+  .meta-row span b { color: var(--muted); font-weight:600; }
+
+  /* ---------- decision chips ---------- */
+  .chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:30px; }
+  .chip {
+    display:inline-flex; align-items:baseline; gap:8px;
+    background: var(--paper);
+    border:1px solid var(--line);
+    border-radius: 7px;
+    padding: 8px 13px;
+    font-size: 13.5px;
+  }
+  .chip .k { font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); }
+  .chip .v { font-weight:600; }
+
+  /* ---------- generic section ---------- */
+  section { margin: 0 auto 60px; max-width: var(--maxw); }
+  .sec-head { display:flex; align-items:baseline; gap:14px; margin-bottom:22px; }
+  .sec-num {
+    font-family:var(--mono); font-size:13px; color:var(--accent);
+    border:1px solid var(--accent); border-radius:5px; padding:2px 8px; flex:none;
+    background: var(--accent-soft);
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight:600;
+    font-size: clamp(23px, 3.4vw, 30px);
+    letter-spacing:-0.01em;
+    margin:0;
+    text-wrap: balance;
+  }
+  .sec-sub { color:var(--muted); margin: -8px 0 26px; max-width:64ch; }
+  h3 { font-family:var(--sans); font-weight:650; font-size:16px; margin:0 0 6px; letter-spacing:-0.005em; }
+  p { margin: 0 0 14px; }
+  a { color: var(--accent); text-underline-offset:3px; }
+
+  /* ---------- flow diagram ---------- */
+  .flow { display:grid; grid-template-columns: repeat(auto-fit, minmax(155px,1fr)); gap:14px; }
+  .step {
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:18px 16px; position:relative; overflow:hidden;
+  }
+  .step::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--accent); opacity:.85; }
+  .step .n { font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:0.1em; }
+  .step h3 { margin:9px 0 5px; font-size:15px; }
+  .step p { font-size:13px; color:var(--muted); margin:0; }
+  .branch { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+  .step.alt::before { background: var(--slate); }
+
+  /* ---------- cards grid ---------- */
+  .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:16px; }
+  .card {
+    background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px 22px 20px;
+    display:flex; flex-direction:column;
+  }
+  .card .tag {
+    align-self:flex-start; font-family:var(--mono); font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:4px 10px; margin-bottom:14px;
+  }
+  .card h3 { font-size:17px; margin-bottom:10px; }
+  ul { margin:0; padding-left:0; list-style:none; }
+  .card li, .plain li { position:relative; padding-left:20px; margin-bottom:8px; font-size:14px; color:var(--muted); line-height:1.5; }
+  .card li::before, .plain li::before {
+    content:""; position:absolute; left:2px; top:9px; width:6px; height:6px; border-radius:1px;
+    background:var(--accent); transform:rotate(45deg);
+  }
+  .card li b, .plain li b { color:var(--ink); font-weight:600; }
+  .plain { padding-left:0; }
+  .field-line { font-family:var(--mono); font-size:12.5px; color:var(--muted); }
+
+  /* ---------- code / schema ---------- */
+  .code-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--paper); }
+  pre { margin:0; padding:22px 24px; font-family:var(--mono); font-size:13px; line-height:1.72; color:var(--ink); white-space:pre; }
+  .c-key { color:var(--accent); }
+  .c-cmt { color:var(--faint); font-style:italic; }
+  .c-str { color:var(--slate); }
+  @media (prefers-color-scheme: dark){ .c-str{ color:var(--slate);} }
+
+  /* ---------- table ---------- */
+  .tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; }
+  table { border-collapse:collapse; width:100%; min-width:560px; background:var(--paper); font-size:13.5px; }
+  th, td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--line-2); vertical-align:top; }
+  th { font-family:var(--mono); font-size:11px; letter-spacing:0.09em; text-transform:uppercase; color:var(--faint); font-weight:600; background:var(--bg); }
+  tr:last-child td { border-bottom:none; }
+  td code, .icode { font-family:var(--mono); font-size:12.5px; background:var(--bg); padding:1px 6px; border-radius:4px; color:var(--ink); }
+  .tnum { font-variant-numeric: tabular-nums; }
+
+  /* ---------- reliability pills ---------- */
+  .pill { display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; padding:2px 9px; border-radius:20px; font-weight:600; white-space:nowrap; }
+  .pill.ok   { color:var(--ok);   background:var(--ok-bg); }
+  .pill.warn { color:var(--warn); background:var(--warn-bg); }
+  .pill.risk { color:var(--risk); background:var(--risk-bg); }
+
+  /* ---------- roadmap ---------- */
+  .phases { display:flex; flex-direction:column; gap:2px; }
+  .phase {
+    display:grid; grid-template-columns: 88px 1fr; gap:22px; align-items:start;
+    padding:20px 0; border-top:1px solid var(--line);
+  }
+  .phase:last-child { border-bottom:1px solid var(--line); }
+  .phase .pn { font-family:var(--mono); font-size:13px; color:var(--accent); padding-top:2px; }
+  .phase .pn small { display:block; color:var(--faint); font-size:11px; letter-spacing:0.05em; margin-top:4px; }
+  .phase h3 { margin-bottom:8px; }
+  .phase p { font-size:14px; color:var(--muted); margin:0; }
+
+  /* ---------- callout ---------- */
+  .callout {
+    background:var(--paper); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:10px; padding:22px 24px;
+  }
+  .callout h3 { color:var(--accent); margin-bottom:12px; }
+
+  .foot { max-width:var(--maxw); margin:70px auto 0; padding-top:26px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  @media (max-width:560px){
+    .phase { grid-template-columns:1fr; gap:8px; }
+    .branch { grid-template-columns:1fr; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <div class="eyebrow">
+      <svg class="torii" width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
+        <path d="M1 3.2h18M2 5.6h16M3.6 5.6V15M16.4 5.6V15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M1 3.2 2.3 1h15.4L19 3.2" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      Torii Digital Portfolio · Project Blueprint
+    </div>
+    <h1>A portfolio that builds itself from an employee code.</h1>
+    <p class="lede">Every Torii employee gets a public, animated portfolio at one shared URL. Type your <b>employee code</b> and you land on your page; if it's new, you create one, fill in the sections, and drag them into any order you like. Coding-profile stats are <b>fetched automatically</b> from the links you paste. This is the plan for how we build it — for your sign-off.</p>
+    <div class="meta-row">
+      <span><b>Status</b> — Draft for review</span>
+      <span><b>Date</b> — 2026-08-10</span>
+      <span><b>Owner</b> — ToriiMinds</span>
+      <span><b>Palette</b> — pending official Torii colors</span>
+    </div>
+    <div class="chips">
+      <span class="chip"><span class="k">Stack</span><span class="v">Next.js · TypeScript</span></span>
+      <span class="chip"><span class="k">Database</span><span class="v">MongoDB Atlas</span></span>
+      <span class="chip"><span class="k">UI</span><span class="v">Tailwind · Framer Motion</span></span>
+      <span class="chip"><span class="k">Reorder</span><span class="v">dnd-kit</span></span>
+      <span class="chip"><span class="k">Auth</span><span class="v">None (public)</span></span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>The visitor journey</h2></div>
+    <p class="sec-sub">One entry point for everyone. The employee code is the only key — no passwords, no accounts. Anyone with a link can view any portfolio.</p>
+    <div class="flow">
+      <div class="step"><span class="n">STEP 01</span><h3>Enter code</h3><p>Landing page asks for an employee code and nothing else.</p></div>
+      <div class="step"><span class="n">STEP 02</span><h3>Look it up</h3><p>We check MongoDB for a portfolio with that code.</p></div>
+    </div>
+    <div class="branch">
+      <div class="step"><span class="n">EXISTS →</span><h3>Open portfolio</h3><p>Redirect to <span class="icode">/{code}</span> — the live public page. An <b>Edit</b> button returns to the editor.</p></div>
+      <div class="step alt"><span class="n">NEW →</span><h3>Create portfolio</h3><p>Ask for <b>name + code</b>, then drop into the section editor with the standard template.</p></div>
+    </div>
+    <div class="flow" style="margin-top:14px">
+      <div class="step"><span class="n">STEP 04</span><h3>Fill &amp; arrange</h3><p>Fill each section's form, add repeatable items, drag sections into any order.</p></div>
+      <div class="step"><span class="n">STEP 05</span><h3>Save &amp; publish</h3><p>Data is stored by code; the animated page renders instantly and stays live.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>How the pieces fit</h2></div>
+    <p class="sec-sub">One Next.js codebase does everything: the pages you see, the API that talks to MongoDB, and the server-side fetchers that pull coding stats. No separate backend to run or secure.</p>
+    <div class="cards">
+      <div class="card">
+        <span class="tag">Frontend</span>
+        <h3>Rendered pages</h3>
+        <ul>
+          <li>The <b>landing / code entry</b> screen</li>
+          <li>The <b>public portfolio</b> at <span class="icode">/{code}</span>, server-rendered for instant load</li>
+          <li>The <b>editor</b> with per-section forms and drag-to-reorder</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">API layer</span>
+        <h3>Route handlers</h3>
+        <ul>
+          <li><b>Create / read / update</b> a portfolio by code</li>
+          <li><b>Fetch coding stats</b> from a pasted profile URL</li>
+          <li><b>Refresh</b> cached stats on demand</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Data + fetchers</span>
+        <h3>MongoDB &amp; adapters</h3>
+        <ul>
+          <li>One <b>portfolio document</b> per employee code</li>
+          <li>A <b>per-platform adapter</b> (LeetCode, GitHub…) that normalizes stats</li>
+          <li>Stats are <b>cached in the document</b> so public views are fast</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>The data model</h2></div>
+    <p class="sec-sub">A single flexible document per employee. Every field is optional — the UI only renders what exists. <span class="icode">sectionOrder</span> is what powers the drag-to-reorder feature.</p>
+    <div class="code-wrap">
+<pre><span class="c-cmt">// MongoDB collection: portfolios  ·  keyed by employeeCode</span>
+{
+  <span class="c-key">employeeCode</span>: <span class="c-str">"0020"</span>,          <span class="c-cmt">// the only identifier</span>
+  <span class="c-key">name</span>:         <span class="c-str">"Aarav Sharma"</span>,
+  <span class="c-key">createdAt</span>, <span class="c-key">updatedAt</span>,
+
+  <span class="c-key">sectionOrder</span>: [<span class="c-str">"profile"</span>, <span class="c-str">"coding"</span>, <span class="c-str">"tech"</span>, <span class="c-str">"ai"</span>, <span class="c-str">"projects"</span>],  <span class="c-cmt">// drag to reorder</span>
+
+  <span class="c-key">profile</span>: {
+    <span class="c-key">photoUrl</span>, <span class="c-key">tagline</span>, <span class="c-key">bio</span>, <span class="c-key">location</span>, <span class="c-key">resumeUrl</span>,
+    <span class="c-key">socials</span>: [ { <span class="c-key">platform</span>, <span class="c-key">url</span> } ]
+  },
+
+  <span class="c-key">codingProfiles</span>: [ {
+    <span class="c-key">id</span>, <span class="c-key">platform</span>, <span class="c-key">profileUrl</span>, <span class="c-key">username</span>,
+    <span class="c-key">stats</span>: { <span class="c-cmt">/* normalized per platform — solved, rating, ranks… */</span> },
+    <span class="c-key">lastFetchedAt</span>, <span class="c-key">fetchStatus</span>   <span class="c-cmt">// ok | stale | failed</span>
+  } ],
+
+  <span class="c-key">technologies</span>: [ { <span class="c-key">id</span>, <span class="c-key">name</span>, <span class="c-key">certification</span>, <span class="c-key">verificationId</span> } ],
+  <span class="c-key">aiSkills</span>:     [ { <span class="c-key">id</span>, <span class="c-key">name</span>, <span class="c-key">level</span>, <span class="c-key">description</span>, <span class="c-key">certification</span> } ],
+  <span class="c-key">projects</span>:     [ { <span class="c-key">id</span>, <span class="c-key">name</span>, <span class="c-key">imageUrl</span>, <span class="c-key">url</span>, <span class="c-key">description</span>, <span class="c-key">techStack</span>: [] } ]
+}</pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Section specifications</h2></div>
+    <p class="sec-sub">Five sections, each with an "+ Add" flow for repeatable items. All inputs optional. The editor form on the left mirrors the animated block that renders on the public page.</p>
+    <div class="cards">
+      <div class="card">
+        <span class="tag">Section · Profile</span>
+        <h3>Profile summary</h3>
+        <ul>
+          <li><b>Photo</b>, tagline, short bio, location</li>
+          <li><b>Social links</b> — add any number (LinkedIn, X, personal site…)</li>
+          <li><b>Resume</b> — upload / link, shown as a download button</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Section · Coding</span>
+        <h3>Coding profiles</h3>
+        <ul>
+          <li>Add: <b>platform + profile URL</b> — that's all they type</li>
+          <li>We <b>auto-fetch</b> username, problems by difficulty, contests, ratings &amp; ranks</li>
+          <li>Rendered as <b>animated stat tiles</b> per platform; add as many as they want</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Section · Tech</span>
+        <h3>Technologies</h3>
+        <ul>
+          <li>Add: <b>name</b>, certification, optional <b>verification ID</b></li>
+          <li>Certified items get a <b>verified badge</b> with the ID</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Section · AI</span>
+        <h3>AI skills</h3>
+        <ul>
+          <li>Add: <b>technology, level, description</b>, related certification</li>
+          <li>Level renders as a <b>proficiency meter</b></li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Section · Projects</span>
+        <h3>Projects</h3>
+        <ul>
+          <li>Add: <b>name, image, URL, description, tech stack</b></li>
+          <li>Rendered as <b>interactive project cards</b> with live links</li>
+        </ul>
+      </div>
+      <div class="card" style="border-style:dashed; background:transparent;">
+        <span class="tag">Behavior</span>
+        <h3>Structure control</h3>
+        <ul>
+          <li>A <b>"Structure"</b> panel lists all sections as draggable rows</li>
+          <li>Drag order is saved to <span class="icode">sectionOrder</span> and drives the live page</li>
+          <li>Empty sections are <b>hidden automatically</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Coding-profile fetchers</h2></div>
+    <p class="sec-sub">The core technical challenge. Each platform gets its own adapter that turns a profile URL into normalized stats. Reliability varies — official APIs are rock-solid; platforms without one need HTML scraping and will need occasional upkeep. I'm flagging that honestly up front.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Platform</th><th>What we pull</th><th>Method</th><th>Reliability</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>LeetCode</b></td>
+            <td>Username, total solved, easy / medium / hard split, contests attended, rating, global &amp; country rank</td>
+            <td>GraphQL endpoint</td>
+            <td><span class="pill warn">Medium · unofficial</span></td>
+          </tr>
+          <tr>
+            <td><b>GitHub</b></td>
+            <td>Repos, stars, followers, contributions, top languages</td>
+            <td>Official REST / GraphQL API</td>
+            <td><span class="pill ok">High · official</span></td>
+          </tr>
+          <tr>
+            <td><b>Codeforces</b></td>
+            <td>Current &amp; max rating, rank, problems solved, contests</td>
+            <td>Official public API</td>
+            <td><span class="pill ok">High · official</span></td>
+          </tr>
+          <tr>
+            <td><b>CodeChef</b></td>
+            <td>Rating, stars, global &amp; country rank, problems solved</td>
+            <td>HTML scrape</td>
+            <td><span class="pill risk">Fragile · scrape</span></td>
+          </tr>
+          <tr>
+            <td><b>HackerRank</b></td>
+            <td>Badges, skills, problems / points where public</td>
+            <td>HTML scrape</td>
+            <td><span class="pill risk">Fragile · scrape</span></td>
+          </tr>
+          <tr>
+            <td><b>GeeksforGeeks</b></td>
+            <td>Coding score, problems solved, institute rank</td>
+            <td>HTML scrape</td>
+            <td><span class="pill risk">Fragile · scrape</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px; font-size:14px; color:var(--muted);">Stats are fetched on save and <b>cached in the document</b>, so public pages never wait on a scrape. A per-profile <b>refresh</b> button re-pulls on demand, and failed fetches degrade gracefully — the tile still shows the username and a link.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Design system</h2></div>
+    <p class="sec-sub">One standard, highly-animated template shared by everyone. The layout and motion are fixed; only the data changes per person.</p>
+    <div class="cards">
+      <div class="card">
+        <span class="tag">Identity</span>
+        <h3>Torii palette</h3>
+        <ul>
+          <li>Built on <b>design tokens</b> — one variable file drives every color</li>
+          <li>Send me the <b>official Torii colors</b> and the whole app adopts them instantly</li>
+          <li>Full <b>light + dark</b> support out of the box</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Motion</span>
+        <h3>Animation</h3>
+        <ul>
+          <li><b>Scroll-reveal</b> per section, staggered stat tiles, hover micro-interactions</li>
+          <li>A tasteful <b>page-load sequence</b> on the portfolio</li>
+          <li>Respects <b>reduced-motion</b> preferences</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Responsive</span>
+        <h3>Every screen</h3>
+        <ul>
+          <li>Mobile-first, fluid type &amp; spacing</li>
+          <li>Stat tiles and project cards <b>reflow</b> cleanly to one column</li>
+          <li>Drag-reorder works with <b>touch</b> too</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>Build roadmap</h2></div>
+    <p class="sec-sub">Sequenced so you see something real early. We lock the template on a demo profile before opening it to everyone — and add the light verification you mentioned as the final gate.</p>
+    <div class="phases">
+      <div class="phase"><div class="pn">P1<small>Foundation</small></div><div><h3>Scaffold &amp; design system</h3><p>Next.js project, MongoDB connection, Torii tokens, landing / code-entry screen, and the create-portfolio flow.</p></div></div>
+      <div class="phase"><div class="pn">P2<small>Editor</small></div><div><h3>Dynamic section editor</h3><p>All five section forms with "+ Add" items, the Structure panel with drag-to-reorder, and save/load by employee code.</p></div></div>
+      <div class="phase"><div class="pn">P3<small>Template</small></div><div><h3>The animated portfolio page</h3><p>The public <span class="icode">/{code}</span> template — the showpiece — with all motion, responsiveness, and section rendering driven by data.</p></div></div>
+      <div class="phase"><div class="pn">P4<small>Fetchers</small></div><div><h3>Coding-profile adapters</h3><p>LeetCode, GitHub, Codeforces first (official/stable), then the scrape-based CodeChef / HackerRank / GeeksforGeeks, with caching + refresh.</p></div></div>
+      <div class="phase"><div class="pn">P5<small>Ship</small></div><div><h3>Verification &amp; rollout</h3><p>Polish on a demo profile, add the light verification gate, deploy, then hand out the single URL to all employees.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="callout">
+      <h3>What I need from you to start</h3>
+      <ul class="plain">
+        <li><b>The official Torii color palette</b> — hex values (or the website link so I can pull them). Everything else can proceed in parallel with placeholders.</li>
+        <li><b>Employee code format</b> — e.g. <span class="icode">0020</span>? Any pattern I should validate against?</li>
+        <li><b>Where it will be hosted</b> — Vercel is the simplest fit for Next.js, or your own server if Torii prefers.</li>
+        <li><b>The "light verification"</b> you mentioned for the final gate — should editing require anything beyond the code, or is it fully open?</li>
+      </ul>
+      <p style="margin:16px 0 0; font-size:14px; color:var(--muted);">Give me the palette and a green light on this plan, and I'll start with <b>Phase 1</b> — scaffold, tokens, and the code-entry landing screen.</p>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>TORII DIGITAL PORTFOLIO</span>
+    <span>BLUEPRINT v1 · 2026-08-10</span>
+  </div>
+
+</div>
