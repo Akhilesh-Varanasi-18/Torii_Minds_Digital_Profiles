@@ -1,0 +1,15 @@
+# Keep the image small and secrets out of it.
+node_modules
+**/node_modules
+.next
+.git
+.gitignore
+backups
+.env.local
+.env*.local
+project_resume_template
+*.html
+!src/**/*.html
+tsconfig.tsbuildinfo
+npm-debug.log*
+.DS_Store

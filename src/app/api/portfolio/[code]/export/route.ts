@@ -30,7 +30,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
 
   try {
     const { chromium } = await import("playwright");
-    const browser = await chromium.launch();
+    // --no-sandbox is required to launch Chromium as root inside a container
+    // (e.g. the Render Docker image); harmless locally since we only ever
+    // render our own trusted /print page.
+    const browser = await chromium.launch({ args: ["--no-sandbox", "--disable-setuid-sandbox"] });
     try {
       const page = await browser.newPage();
       await page.goto(printUrl, { waitUntil: "networkidle", timeout: 45000 }).catch(async () => {
