@@ -35,9 +35,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
     // render our own trusted /print page.
     const browser = await chromium.launch({ args: ["--no-sandbox", "--disable-setuid-sandbox"] });
     try {
-      const page = await browser.newPage();
-      // Fixed desktop width so the PDF matches the HTML's laptop layout.
-      await page.setViewportSize({ width: 1180, height: 1200 });
+      // Fixed desktop width (matches the HTML's laptop layout) and 2x scale so
+      // the PDF screenshot is crisp.
+      const context = await browser.newContext({
+        viewport: { width: 1180, height: 1200 },
+        deviceScaleFactor: 2,
+      });
+      const page = await context.newPage();
       await page.goto(printUrl, { waitUntil: "networkidle", timeout: 45000 }).catch(async () => {
         await page.goto(printUrl, { waitUntil: "load", timeout: 20000 });
       });
@@ -45,24 +49,48 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
       await page.waitForTimeout(400);
 
       if (format === "pdf") {
-        // Continuous-flow PDF: ONE tall page that matches the HTML exactly — no
-        // A4 page-break gaps orphaning section headers. The page size must be
-        // driven via CSS @page (passing width/height straight to page.pdf makes
-        // Chromium mis-render tall pages — content collapses). We append the
-        // @page rule at the END of <body> so it wins over the print page's own
-        // @page A4. A small height buffer + pageRanges:"1" drops the stray blank
-        // overflow page from sub-pixel rounding. Links stay clickable.
-        await page.emulateMedia({ media: "screen" });
-        const height = await page.evaluate(
-          () => Math.ceil(document.documentElement.scrollHeight) + 40
+        // Continuous-flow PDF = one tall page identical to the HTML, no A4 gaps.
+        // Chromium's page.pdf() CLIPS very tall single pages (silently drops the
+        // bottom sections), so instead we screenshot the full page (captures
+        // everything) and build a one-page PDF from that image with pdf-lib,
+        // overlaying clickable link annotations so navigation still works.
+        const DSF = 2;
+        const links = await page.evaluate(() =>
+          Array.from(document.querySelectorAll("a[href]"))
+            .map((a) => {
+              const r = a.getBoundingClientRect();
+              return { href: (a as HTMLAnchorElement).href, x: r.left + window.scrollX, y: r.top + window.scrollY, w: r.width, h: r.height };
+            })
+            .filter((l) => l.w > 1 && l.h > 1 && l.href && !l.href.startsWith("javascript:"))
         );
-        await page.evaluate((h) => {
-          const s = document.createElement("style");
-          s.textContent = `@page { size: 1180px ${h}px; margin: 0; }`;
-          document.body.appendChild(s);
-        }, height);
-        const pdf = await page.pdf({ printBackground: true, preferCSSPageSize: true, pageRanges: "1" });
-        return new NextResponse(new Uint8Array(pdf), {
+        const png = await page.screenshot({ fullPage: true, type: "png" });
+
+        const { PDFDocument, PDFName, PDFString } = await import("pdf-lib");
+        const doc = await PDFDocument.create();
+        const img = await doc.embedPng(png);
+        const PX_TO_PT = 72 / 96; // CSS px → PDF points
+        const pageW = (img.width / DSF) * PX_TO_PT;
+        const pageH = (img.height / DSF) * PX_TO_PT;
+        const pg = doc.addPage([pageW, pageH]);
+        pg.drawImage(img, { x: 0, y: 0, width: pageW, height: pageH });
+
+        const annots = links.map((l) => {
+          const x1 = l.x * PX_TO_PT;
+          const x2 = (l.x + l.w) * PX_TO_PT;
+          // PDF origin is bottom-left; flip the y axis.
+          const y1 = pageH - (l.y + l.h) * PX_TO_PT;
+          const y2 = pageH - l.y * PX_TO_PT;
+          return doc.context.register(
+            doc.context.obj({
+              Type: "Annot", Subtype: "Link", Rect: [x1, y1, x2, y2], Border: [0, 0, 0],
+              A: doc.context.obj({ Type: "Action", S: "URI", URI: PDFString.of(l.href) }),
+            })
+          );
+        });
+        pg.node.set(PDFName.of("Annots"), doc.context.obj(annots));
+
+        const bytes = await doc.save();
+        return new NextResponse(new Uint8Array(bytes), {
           headers: {
             "Content-Type": "application/pdf",
             "Content-Disposition": `attachment; filename="${safeName}_Portfolio.pdf"`,
