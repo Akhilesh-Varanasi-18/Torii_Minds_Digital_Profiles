@@ -6,6 +6,8 @@ node_modules/
 # nested template build output (not used by the app)
 /project_resume_template/dist/
 .env*.local
+# local-only secrets note (never commit)
+CREDENTIALS.local.md
 .DS_Store
 *.pem
 npm-debug.log*
