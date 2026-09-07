@@ -33,13 +33,20 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
     // --no-sandbox is required to launch Chromium as root inside a container
     // (e.g. the Render Docker image); harmless locally since we only ever
     // render our own trusted /print page.
-    const browser = await chromium.launch({ args: ["--no-sandbox", "--disable-setuid-sandbox"] });
+    // --disable-dev-shm-usage is essential in low-memory containers (Render's
+    // free tier gives Chromium a tiny /dev/shm; without this the full-page
+    // screenshot OOMs the instance → 502).
+    const browser = await chromium.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
+    });
     try {
       // Fixed desktop width (matches the HTML's laptop layout) and 2x scale so
       // the PDF screenshot is crisp.
+      // deviceScaleFactor 1 keeps the full-page screenshot small enough for the
+      // 512MB free tier (2x quadrupled the bitmap and OOM'd the instance).
       const context = await browser.newContext({
         viewport: { width: 1180, height: 1200 },
-        deviceScaleFactor: 2,
+        deviceScaleFactor: 1,
       });
       const page = await context.newPage();
       await page.goto(printUrl, { waitUntil: "networkidle", timeout: 45000 }).catch(async () => {
@@ -54,7 +61,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
         // bottom sections), so instead we screenshot the full page (captures
         // everything) and build a one-page PDF from that image with pdf-lib,
         // overlaying clickable link annotations so navigation still works.
-        const DSF = 2;
+        const DSF = 1;
         const links = await page.evaluate(() =>
           Array.from(document.querySelectorAll("a[href]"))
             .map((a) => {
